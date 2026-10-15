@@ -1,0 +1,10 @@
+{
+  "latestErrorEvent": {
+    "code": "TYPE-001",
+    "message": "Failed to generate type declaration. Execute the below cmd to reproduce and fix the error. #TYPE-001\nargs: {\"cmd\":\"\\\"C:\\\\\\\\Program Files\\\\\\\\nodejs\\\\\\\\node.exe\\\" D:\\\\Projects\\\\scaffolder_shell\\\\node_modules\\\\.pnpm\\\\typescript@5.9.3\\\\node_modules\\\\typescript\\\\bin\\\\tsc --project D:\\\\Projects\\\\scaffolder_shell\\\\apps\\\\web\\\\node_modules\\\\.federation\\\\tsconfig.60bff4406829b032d44263b05f4a1fa0.json\"}\nView the docs to see how to solve: https://module-federation.io/guide/troubleshooting/type#type-001",
+    "args": {
+      "cmd": "\"C:\\\\Program Files\\\\nodejs\\\\node.exe\" D:\\Projects\\scaffolder_shell\\node_modules\\.pnpm\\typescript@5.9.3\\node_modules\\typescript\\bin\\tsc --project D:\\Projects\\scaffolder_shell\\apps\\web\\node_modules\\.federation\\tsconfig.60bff4406829b032d44263b05f4a1fa0.json"
+    },
+    "timestamp": 1792042107815
+  }
+}

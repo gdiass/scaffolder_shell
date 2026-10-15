@@ -8,11 +8,10 @@ import { HttpLoggingInterceptor } from './common/observability/logging.intercept
 import { RequestIdMiddleware } from './common/observability/request-id.middleware';
 import { HealthController } from './health/health.controller';
 import { PrismaModule } from './prisma/prisma.module';
-import { TasksModule } from './tasks/tasks.module';
 import { UserModule } from './users/user.module';
 
 @Module({
-  imports: [PrismaModule, AuthModule, AccessControlModule, UserModule, TasksModule],
+  imports: [PrismaModule, AuthModule, AccessControlModule, UserModule],
   controllers: [HealthController],
   providers: [
     ErrorMonitoringService,

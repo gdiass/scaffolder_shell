@@ -1,40 +1,55 @@
 import { resolve } from 'node:path';
 import tailwindcss from '@tailwindcss/vite';
+import { federation } from '@module-federation/vite';
 import react from '@vitejs/plugin-react';
-import { defineConfig, loadEnv } from 'vite';
+import { defineConfig } from 'vite';
 
-export default defineConfig(({ mode }) => {
-  // Carrega TODAS as variáveis do .env (prefixo '' = sem filtro por VITE_)
-  const env = loadEnv(mode, resolve(import.meta.dirname, '../..'), '');
-
-  const apiBaseUrl = env.API_BASE_URL || `http://localhost:${env.API_PORT || '3000'}`;
-
-  return {
-    plugins: [
-      tailwindcss(),
-      react(),
-    ],
-    resolve: {
-      alias: {
-        '@': resolve(import.meta.dirname, './src'),
-      },
-    },
-    define: {
-      'import.meta.env.VITE_DEV_ADMIN_EMAIL': JSON.stringify(env.DEV_ADMIN_EMAIL || 'admin@appstart.local'),
-      'import.meta.env.VITE_DEV_USER_EMAIL': JSON.stringify(env.DEV_USER_EMAIL || 'user@appstart.local'),
-    },
-    server: {
-      port: Number(env.WEB_PORT) || 5173,
-      proxy: {
-        '/api': {
-          target: apiBaseUrl,
-          changeOrigin: true,
-        },
-        '/health': {
-          target: apiBaseUrl,
-          changeOrigin: true,
+export default defineConfig({
+  plugins: [
+    tailwindcss(),
+    react(),
+    federation({
+      name: 'appstartHost',
+      remotes: {
+        tasksMfe: {
+          type: 'module',
+          name: 'tasksMfe', 
+          entry: 'http://localhost:5174/remoteEntry.js', 
+          entryGlobalName: 'tasksMfe',
+          shareScope: 'default',
         },
       },
+      shared: {
+        react: { singleton: true },
+        'react-dom': { singleton: true }
+      },
+    }),
+  ],
+  resolve: {
+    alias: {
+      '@': resolve(import.meta.dirname, './src'),
     },
-  };
+  },
+  server: {
+    port: 5173,
+    proxy: {
+      // 1. ESPECÍFICO: Desvia chamadas de tarefas para o servidor do MFE na porta 5174
+      '/api/v1/tasks': {
+        target: 'http://localhost:5174', 
+        changeOrigin: true,
+        secure: false,
+      },
+      
+      // 2. GENÉRICO: Mantém todo o restante das requisições (auth, login, etc) na sua API principal
+      '/api': {
+        target: process.env.API_BASE_URL || 'http://localhost:3100',
+        changeOrigin: true,
+        secure: false,
+      },
+      '/health': {
+        target: process.env.API_BASE_URL || 'http://localhost:3100',
+        changeOrigin: true,
+      },
+    },
+  },
 });

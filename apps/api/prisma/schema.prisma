@@ -12,20 +12,6 @@ enum UserRole {
   ADMIN
 }
 
-enum TaskStatus {
-  PENDING
-  IN_PROGRESS
-  COMPLETED
-  CANCELLED
-}
-
-enum TaskPriority {
-  LOW
-  MEDIUM
-  HIGH
-  URGENT
-}
-
 model UserProfile {
   id             String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   keycloakUserId String    @unique
@@ -36,7 +22,6 @@ model UserProfile {
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
   sessions       Session[]
-  tasks          Task[]
 
   @@map("user_profiles")
 }
@@ -56,21 +41,3 @@ model Session {
   @@map("sessions")
 }
 
-model Task {
-  id          String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  title       String
-  description String?
-  status      TaskStatus   @default(PENDING)
-  priority    TaskPriority @default(MEDIUM)
-  dueDate     DateTime?
-  ownerId     String       @db.Uuid
-  deletedAt   DateTime?
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
-  owner       UserProfile  @relation(fields: [ownerId], references: [id], onDelete: Cascade)
-
-  @@index([ownerId])
-  @@index([deletedAt])
-  @@index([status])
-  @@map("tasks")
-}

@@ -34,6 +34,7 @@
     "check:all": "pnpm test && pnpm --dir apps/web build && pnpm api:check && pnpm docs:check"
   },
   "devDependencies": {
+    "@module-federation/vite": "1.23.4",
     "orval": "^8.27.0",
     "tsx": "^4.23.13"
   }

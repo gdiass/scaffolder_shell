@@ -22,10 +22,9 @@ import { StatCard } from '../components/ui/stat-card';
 import {
   healthControllerLive,
   healthControllerReady,
-  tasksControllerFindAll,
   userControllerList,
 } from '../lib/api-client';
-import type { PaginatedTasksResponseDto, PaginatedUsersResponseDto } from '../lib/api-client/models';
+import type { PaginatedUsersResponseDto } from '../lib/api-client/models';
 
 export function DashboardPage() {
   const { user, isAdmin } = useAuth();
@@ -49,15 +48,6 @@ export function DashboardPage() {
     staleTime: 30000,
   });
 
-  // Tasks Query for real-time stats
-  const { data: tasksResponse } = useQuery({
-    queryKey: ['tasks', { page: 1, pageSize: 50 }],
-    queryFn: async () => {
-      const res = await tasksControllerFindAll({ page: 1, pageSize: 50 });
-      return res.data;
-    },
-  });
-
   // Users Query for real-time stats (Admin only)
   const { data: usersResponse } = useQuery({
     queryKey: ['users', { page: 1, pageSize: 50 }],
@@ -67,16 +57,6 @@ export function DashboardPage() {
     },
     enabled: isAdmin,
   });
-
-  const paginatedTasks =
-    tasksResponse && 'data' in (tasksResponse as PaginatedTasksResponseDto)
-      ? (tasksResponse as PaginatedTasksResponseDto)
-      : null;
-
-  const tasksList = paginatedTasks?.data || [];
-  const totalTasks = paginatedTasks?.meta?.total ?? tasksList.length;
-  const pendingTasks = tasksList.filter((t) => t.status === 'PENDING' || t.status === 'IN_PROGRESS').length;
-  const completedTasks = tasksList.filter((t) => t.status === 'COMPLETED').length;
 
   const paginatedUsers =
     usersResponse && 'data' in (usersResponse as PaginatedUsersResponseDto)
@@ -120,39 +100,6 @@ export function DashboardPage() {
 
       {/* Reusable StatCard Components (OneUI Two-Layered Stat Blocks) */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatCard
-          title="Tarefas Criadas"
-          value={totalTasks}
-          icon={ListTodo}
-          iconBgClass="bg-brand-subtle dark:bg-brand-primary/60"
-          iconColorClass="text-brand-text dark:text-brand-text"
-          actionText="Gerenciar tarefas"
-          actionHref="/tasks"
-          actionColorClass="text-brand-text dark:text-brand-text hover:text-brand-text dark:hover:text-brand-text"
-        />
-
-        <StatCard
-          title="Em Andamento"
-          value={pendingTasks}
-          icon={Clock}
-          iconBgClass="bg-warning-subtle dark:bg-warning-subtle/60"
-          iconColorClass="text-warning-text dark:text-warning-text"
-          actionText="Ver pendentes"
-          actionHref="/tasks?status=PENDING"
-          actionColorClass="text-warning-text dark:text-warning-text hover:text-warning-text dark:hover:text-warning-text"
-        />
-
-        <StatCard
-          title="Concluídas"
-          value={completedTasks}
-          icon={CheckCircle2}
-          iconBgClass="bg-success-subtle dark:bg-success-subtle/60"
-          iconColorClass="text-success-text dark:text-success-text"
-          actionText="Ver histórico"
-          actionHref="/tasks?status=COMPLETED"
-          actionColorClass="text-success-text dark:text-success-text hover:text-success-text dark:hover:text-success-text"
-        />
-
         <StatCard
           title={isAdmin ? 'Usuários Cadastrados' : 'Sessão OIDC'}
           value={isAdmin ? totalUsers : 'Ativo'}

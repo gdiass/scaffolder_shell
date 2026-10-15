@@ -10,7 +10,6 @@ Template pedagógico **high-opinionated** full stack para ensino e construção 
 - **Tipagem Estrita Ponta a Ponta:** Contrato exportado em **OpenAPI 3.0** com geração automática de cliente TypeScript via **Orval** (`@/lib/api-client`).
 - **Interface React Moderna:** React 19, Vite 8, Tailwind CSS, tema claro/escuro com prevenção de *flicker*, gerenciamento de dados remotos com **TanStack Query** e formulários com **React Hook Form + Zod**.
 - **Governança de Dados:** Migrações versionadas, controle de propriedade (*ownership*) e remoção lógica (*soft delete*).
-- **Módulo CRUD de Referência:** Módulo `tasks` demonstrando fluxo ponta a ponta, regras de negócio e testes automatizados.
 - **Tutor de IA Integrado:** Skills pedagógicas em `.agent/skills/` que orientam o aluno passo a passo na criação de novos módulos.
 
 ---
@@ -80,7 +79,7 @@ Browser (React SPA) <--- Cookies HttpOnly ---> NestJS API (BFF) <--- OIDC PKCE -
                                                      |
                                                      v
                                              PostgreSQL (Prisma)
-                                        (Perfis, Sessões, Tasks)
+                                        (Perfis, Sessões)
 ```
 
 ---
@@ -93,7 +92,6 @@ Browser (React SPA) <--- Cookies HttpOnly ---> NestJS API (BFF) <--- OIDC PKCE -
 | [docs/feature-development-guide.md](file:///home/filipe/Documentos/Projetos/scaffolder/docs/feature-development-guide.md) | Guia prático passo a passo para criar novas funcionalidades |
 | [docs/testing-strategy-guide.md](file:///home/filipe/Documentos/Projetos/scaffolder/docs/testing-strategy-guide.md) | Pirâmide de testes, comandos, escopos e exemplos |
 | [docs/educator-guide.md](file:///home/filipe/Documentos/Projetos/scaffolder/docs/educator-guide.md) | Manual para professores, preparação de turmas e exercícios práticos |
-| [docs/reference-module-guidance.md](file:///home/filipe/Documentos/Projetos/scaffolder/docs/reference-module-guidance.md) | Guia do módulo de referência `tasks`, como renomear ou remover |
 | [docs/observability-and-troubleshooting.md](file:///home/filipe/Documentos/Projetos/scaffolder/docs/observability-and-troubleshooting.md) | Logs estruturados, correlação `requestId` e health checks |
 | [docs/glossary-and-concepts.md](file:///home/filipe/Documentos/Projetos/scaffolder/docs/glossary-and-concepts.md) | Glossário com explicações didáticas sobre BFF, OIDC, PKCE, CSRF e Soft Delete |
 | [docs/decisions/](file:///home/filipe/Documentos/Projetos/scaffolder/docs/decisions/) | Registros de Decisão de Arquitetura (ADR-001 a ADR-006) |

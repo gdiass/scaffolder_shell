@@ -11,8 +11,8 @@ import { ProtectedRoute } from './components/layout/protected-route';
 import { DashboardPage } from './pages/dashboard-page';
 import { LoginPage } from './pages/login-page';
 import { ProfilePage } from './pages/profile-page';
-import { TasksPage } from './pages/tasks-page';
 import { UsersPage } from './pages/users-page';
+import { TasksMfe } from './components/mfe/tasks-mfe';
 
 const queryClient = new QueryClient({
   queryCache: new QueryCache({
@@ -56,7 +56,7 @@ export function App() {
                 }
               >
                 <Route path="/" element={<DashboardPage />} />
-                <Route path="/tasks" element={<TasksPage />} />
+                <Route path="/tasks" element={<TasksMfe />} />
                 <Route path="/profile" element={<ProfilePage />} />
                 <Route
                   path="/users"
@@ -77,3 +77,5 @@ export function App() {
     </QueryClientProvider>
   );
 }
+
+export default App; 

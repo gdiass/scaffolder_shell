@@ -296,7 +296,7 @@ describe('Keycloak BFF authentication (e2e)', () => {
       .get('/api/v1/auth/callback')
       .query({ code, state })
       .expect(303);
-    expect(callback.headers.location).toBe('http://localhost:5173/tasks?filter=open');
+    expect(callback.headers.location).toBe('http://localhost:5174/tasks?filter=open');
     const sessionCookie = callback.headers['set-cookie'].find((value: string) => value.startsWith('appstart_session='));
     expect(sessionCookie).toContain('HttpOnly');
     expect(sessionCookie).toContain('SameSite=Lax');
