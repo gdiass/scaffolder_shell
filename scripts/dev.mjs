@@ -20,8 +20,9 @@ try {
   await checkPortAvailable(Number(env.API_PORT), 'API');
   await checkPortAvailable(Number(env.WEB_PORT), 'frontend');
 
-  const api = spawn('pnpm', ['run', 'api:dev'], { stdio: 'inherit', env: process.env });
-  const web = spawn('pnpm', ['run', 'web:dev'], { stdio: 'inherit', env: process.env });
+  const childEnv = { ...env, ...process.env };
+  const api = spawn('pnpm', ['run', 'api:dev'], { stdio: 'inherit', env: childEnv, shell: true });
+  const web = spawn('pnpm', ['run', 'web:dev'], { stdio: 'inherit', env: childEnv, shell: true });
   children.push(api, web);
 
   for (const child of children) {
